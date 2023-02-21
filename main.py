@@ -1,3 +1,7 @@
+"""
+This program uses the Circuit Playground to handle the timer functionality of the StudyBox.
+"""
+
 import time
 from adafruit_circuitplayground import cp
 
