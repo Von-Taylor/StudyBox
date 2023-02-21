@@ -1,0 +1,9 @@
+Steps to using StudyBox:
+1. Press button_a to increment timer by 300 sec (5 min)
+    - Start with timer = 0
+    - If timer > 3600 (1 hour), reset timer = 0 and indicate so through sound and lights
+2. Press button_b to start the countdown
+    - Lights start green then gradually to yellow, then to red as timer decreases
+        - Create ratio = (defaultBrightness / timer), to be used to add/subtract red and green every second
+    - If any button is held during the countdown, then cancel the timer
+3. Once timer expires, activate servo motor, lights, and if the switch is on, play song
