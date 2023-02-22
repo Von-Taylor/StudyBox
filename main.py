@@ -6,40 +6,41 @@ import time
 from adafruit_circuitplayground import cp
 
 # indicate timer was increased
-def indicateIncrease(timer):
+def indicateIncrease(timer, defBright):
+    ratio = defBright / 10
     if timer == 300:
-        cp.pixels[9] = (5,0,0)
+        cp.pixels[9] = (defBright,0,0)
     elif timer == 600:
-        cp.pixels[8] = (4.5,0.5,0)
+        cp.pixels[8] = (defBright - ratio,ratio,0)
     elif timer == 900:
-        cp.pixels[7] = (4,1,0)
+        cp.pixels[7] = (defBright - 2*ratio,2*ratio,0)
     elif timer == 1200:
-        cp.pixels[6] = (3.5,1.5,0)
+        cp.pixels[6] = (defBright - 3*ratio,3*ratio,0)
     elif timer == 1500:
-        cp.pixels[5] = (3,2,0)
+        cp.pixels[5] = (defBright - 4*ratio,4*ratio,0)
     elif timer == 1800:
-        cp.pixels[4] = (2.5,2.5,0)
+        cp.pixels[4] = (defBright - 5*ratio,5*ratio,0)
     elif timer == 2100:
-        cp.pixels[3] = (2,3,0)
+        cp.pixels[3] = (defBright - 6*ratio,6*ratio,0)
     elif timer == 2400:
-        cp.pixels[2] = (1.5,3.5,0)
+        cp.pixels[2] = (defBright - 7*ratio,7*ratio,0)
     elif timer == 2700:
-        cp.pixels[1] = (1,4,0)
+        cp.pixels[1] = (defBright - 8*ratio,8*ratio,0)
     elif timer == 3000:
-        cp.pixels[0] = (0.5,4.5,0)
+        cp.pixels[0] = (defBright - 9*ratio,9*ratio,0)
 
 # indicate that a timer reset occurred
-def indicateReset():
-    cp.pixels.fill((5,0,0))
+def indicateReset(defBright):
+    cp.pixels.fill((defBright,0,0))
     cp.play_tone(300, 0.3)
     cp.play_tone(200, 0.3)
     cp.pixels.fill((0,0,0))
 
 # cool light show
-def lightShow():
-    high = 5
-    medium = 2.5
-    low = 0.5
+def lightShow(defBright):
+    high = defBright
+    medium = defBright / 2
+    low = defBright / 10
 
     cp.pixels[0] = (high,0,medium)
     time.sleep(0.1)
@@ -69,9 +70,9 @@ def finishLightShow():
         time.sleep(0.1)
 
 # cancel timer if any button is pressed
-def checkCancel():
+def checkCancel(defBright):
     if cp.button_a or cp.button_b:
-        lightShow()
+        lightShow(defBright)
         finishLightShow()
         return True
     return False
@@ -90,9 +91,9 @@ def startCoutdown(timer, defBright):
         cp.pixels.fill((red,green,0))
         red += ratio
         green -= ratio
-        if checkCancel(): return
-        time.sleep(1) # change this to change how fast the timer countsdown
-        if checkCancel(): return
+        if checkCancel(defBright): return
+        time.sleep(0.01) # change this to change how fast the timer countsdown
+        if checkCancel(defBright): return
         timer -= 1
         print(timer)
     finish()
@@ -101,12 +102,12 @@ def startCoutdown(timer, defBright):
 # activate song and servo motor
 def finish():
     # activate servo motor here
-    lightShow()
+    lightShow(defBright)
     if cp.switch: cp.play_file("Comedy-by-Gen-Hoshino.wav")
     finishLightShow()
 
 timer = 0
-defBright = 5
+defBright = 10
 
 while True:
     # Increase timer by 300 sec (5 min) with every button_a press
@@ -117,9 +118,9 @@ while True:
         # If timer exceeds 3600 sec (50 min) reset it back to 0 sec
         if timer > 3000:
             timer = 0
-            indicateReset()
+            indicateReset(defBright)
         else:
-            indicateIncrease(timer)
+            indicateIncrease(timer, defBright)
 
     # Start the timer then activate song and servo motor when expires
     if cp.button_b:
