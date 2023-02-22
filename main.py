@@ -6,10 +6,27 @@ import time
 from adafruit_circuitplayground import cp
 
 # indicate timer was increased
-def indicateIncrease():
-    cp.pixels.fill((0,0,1))
-    time.sleep(0.1)
-    cp.pixels.fill((0,0,0))
+def indicateIncrease(timer):
+    if timer == 300:
+        cp.pixels[9] = (5,0,0)
+    elif timer == 600:
+        cp.pixels[8] = (4.5,0.5,0)
+    elif timer == 900:
+        cp.pixels[7] = (4,1,0)
+    elif timer == 1200:
+        cp.pixels[6] = (3.5,1.5,0)
+    elif timer == 1500:
+        cp.pixels[5] = (3,2,0)
+    elif timer == 1800:
+        cp.pixels[4] = (2.5,2.5,0)
+    elif timer == 2100:
+        cp.pixels[3] = (2,3,0)
+    elif timer == 2400:
+        cp.pixels[2] = (1.5,3.5,0)
+    elif timer == 2700:
+        cp.pixels[1] = (1,4,0)
+    elif timer == 3000:
+        cp.pixels[0] = (0.5,4.5,0)
 
 # indicate that a timer reset occurred
 def indicateReset():
@@ -23,7 +40,7 @@ def lightShow():
     high = 5
     medium = 2.5
     low = 0.5
-    
+
     cp.pixels[0] = (high,0,medium)
     time.sleep(0.1)
     cp.pixels[8] = (high,0,medium)
@@ -44,7 +61,7 @@ def lightShow():
     time.sleep(0.1)
     cp.pixels[5] = (high,medium,low)
     time.sleep(0.1)
-    
+
 # turn off the lights
 def finishLightShow():
     for i in range(0,9 + 1):
@@ -62,10 +79,10 @@ def checkCancel():
 # start the timer countdown
 def startCoutdown(timer, defBright):
     # if user did not set timer, just play the jam
-    if timer == 0: 
+    if timer == 0:
         finish()
         return
-    
+
     # countdown indicated by lights (start green, then gradually become yellow, then red)
     ratio = defBright / timer
     red,green = 0, defBright
@@ -74,9 +91,10 @@ def startCoutdown(timer, defBright):
         red += ratio
         green -= ratio
         if checkCancel(): return
-        time.sleep(1)
+        time.sleep(1) # change this to change how fast the timer countsdown
         if checkCancel(): return
         timer -= 1
+        print(timer)
     finish()
     return
 
@@ -95,15 +113,16 @@ while True:
     if cp.button_a:
         time.sleep(0.3)
         timer += 300
-        
-        # If timer exceeds 3600 sec (1 hour) reset it back to 0 sec
-        if timer > 3600:
+
+        # If timer exceeds 3600 sec (50 min) reset it back to 0 sec
+        if timer > 3000:
             timer = 0
             indicateReset()
         else:
-            indicateIncrease()
-    
-    # Start the timer then activate song and servo motor when expires 
+            indicateIncrease(timer)
+
+    # Start the timer then activate song and servo motor when expires
     if cp.button_b:
         time.sleep(0.3)
         startCoutdown(timer, defBright)
+        timer = 0
