@@ -2,8 +2,16 @@
 This program uses the Circuit Playground to handle the timer functionality of the StudyBox.
 """
 
+import board
+import pwmio
+from adafruit_circuitplayground import cp 
+import adafruit_motor.servo
 import time
-from adafruit_circuitplayground import cp
+
+timer = 0
+defBright = 10
+pwm = pwmio.PWMOut(board.A1, frequency=50)
+servo = adafruit_motor.servo.Servo(pwm, min_pulse=750, max_pulse=2600)
 
 # indicate timer was increased
 def indicateIncrease(timer, defBright):
@@ -101,13 +109,10 @@ def startCoutdown(timer, defBright):
 
 # activate song and servo motor
 def finish():
-    # activate servo motor here
+    servo.angle = 180
     lightShow(defBright)
     if cp.switch: cp.play_file("Comedy-by-Gen-Hoshino.wav")
     finishLightShow()
-
-timer = 0
-defBright = 10
 
 while True:
     # Increase timer by 300 sec (5 min) with every button_a press
@@ -125,5 +130,6 @@ while True:
     # Start the timer then activate song and servo motor when expires
     if cp.button_b:
         time.sleep(0.3)
+        servo.angle = 50
         startCoutdown(timer, defBright)
         timer = 0
