@@ -4,7 +4,7 @@ This program uses the Circuit Playground to handle the timer functionality of th
 
 import board
 import pwmio
-from adafruit_circuitplayground import cp 
+from adafruit_circuitplayground import cp
 import adafruit_motor.servo
 import time
 
@@ -17,25 +17,25 @@ servo = adafruit_motor.servo.Servo(pwm, min_pulse=750, max_pulse=2600)
 def indicateIncrease(timer, defBright):
     ratio = defBright / 10
     if timer == 300:
-        cp.pixels[9] = (defBright,0,0)
+        cp.pixels[4] = (defBright,0,0)
     elif timer == 600:
-        cp.pixels[8] = (defBright - ratio,ratio,0)
+        cp.pixels[3] = (defBright - ratio,ratio,0)
     elif timer == 900:
-        cp.pixels[7] = (defBright - 2*ratio,2*ratio,0)
+        cp.pixels[2] = (defBright - 2*ratio,2*ratio,0)
     elif timer == 1200:
-        cp.pixels[6] = (defBright - 3*ratio,3*ratio,0)
+        cp.pixels[1] = (defBright - 3*ratio,3*ratio,0)
     elif timer == 1500:
-        cp.pixels[5] = (defBright - 4*ratio,4*ratio,0)
+        cp.pixels[0] = (defBright - 4*ratio,4*ratio,0)
     elif timer == 1800:
-        cp.pixels[4] = (defBright - 5*ratio,5*ratio,0)
+        cp.pixels[9] = (defBright - 5*ratio,5*ratio,0)
     elif timer == 2100:
-        cp.pixels[3] = (defBright - 6*ratio,6*ratio,0)
+        cp.pixels[8] = (defBright - 6*ratio,6*ratio,0)
     elif timer == 2400:
-        cp.pixels[2] = (defBright - 7*ratio,7*ratio,0)
+        cp.pixels[7] = (defBright - 7*ratio,7*ratio,0)
     elif timer == 2700:
-        cp.pixels[1] = (defBright - 8*ratio,8*ratio,0)
+        cp.pixels[6] = (defBright - 8*ratio,8*ratio,0)
     elif timer == 3000:
-        cp.pixels[0] = (defBright - 9*ratio,9*ratio,0)
+        cp.pixels[5] = (defBright - 9*ratio,9*ratio,0)
 
 # indicate that a timer reset occurred
 def indicateReset(defBright):
@@ -100,7 +100,7 @@ def startCoutdown(timer, defBright):
         red += ratio
         green -= ratio
         if checkCancel(defBright): return
-        time.sleep(1) # change this to change how fast the timer countsdown
+        time.sleep(0.01) # change this to change how fast the timer countsdown
         if checkCancel(defBright): return
         timer -= 1
         print(timer)
@@ -130,6 +130,6 @@ while True:
     # Start the timer then activate song and servo motor when expires
     if cp.button_b:
         time.sleep(0.3)
-        servo.angle = 50
+        servo.angle = 70
         startCoutdown(timer, defBright)
         timer = 0
