@@ -100,9 +100,10 @@ def startCoutdown(timer, defBright):
         red += ratio
         green -= ratio
         if checkCancel(defBright): return
-        time.sleep(1) # change this to change how fast the timer countsdown
+        time.sleep(0.01) # change this to change how fast the timer countsdown
         if checkCancel(defBright): return
         timer -= 1
+        print(timer)
     finish()
     return
 
@@ -129,6 +130,6 @@ while True:
     # Start the timer then activate song and servo motor when expires
     if cp.button_b:
         time.sleep(0.3)
-        servo.angle = 70
+        servo.angle = 0
         startCoutdown(timer, defBright)
         timer = 0
