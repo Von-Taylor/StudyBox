@@ -109,7 +109,7 @@ def startCoutdown(timer, defBright):
 
 # activate song and servo motor
 def finish():
-    servo.angle = 180
+    servo.angle = 0
     lightShow(defBright)
     if cp.switch: cp.play_file("Comedy-by-Gen-Hoshino.wav")
     finishLightShow()
@@ -130,6 +130,6 @@ while True:
     # Start the timer then activate song and servo motor when expires
     if cp.button_b:
         time.sleep(0.3)
-        servo.angle = 0
+        servo.angle = 180
         startCoutdown(timer, defBright)
         timer = 0
