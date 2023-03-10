@@ -109,7 +109,7 @@ def startCoutdown(timer, defBright):
 
 # activate song and servo motor
 def finish():
-    servo.angle = 0
+    servo.angle = 70
     lightShow(defBright)
     if cp.switch: cp.play_file("Comedy-by-Gen-Hoshino.wav")
     finishLightShow()
@@ -120,7 +120,7 @@ while True:
         time.sleep(0.3)
         timer += 300
 
-        # If timer exceeds 3600 sec (50 min) reset it back to 0 sec
+        # If timer exceeds 3000 sec (50 min) reset it back to 0 sec
         if timer > 3000:
             timer = 0
             indicateReset(defBright)
