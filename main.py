@@ -103,7 +103,6 @@ def startCoutdown(timer, defBright):
         time.sleep(0.01) # change this to change how fast the timer countsdown
         if checkCancel(defBright): return
         timer -= 1
-        print(timer)
     finish()
     return
 
