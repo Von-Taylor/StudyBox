@@ -77,7 +77,7 @@ def finishLightShow():
         cp.pixels[i] = (0,0,0)
         time.sleep(0.1)
 
-# cancel timer if any button is held
+# cancel timer if any button is pressed/held
 def checkCancel(defBright):
     if cp.button_a or cp.button_b:
         lightShow(defBright)
